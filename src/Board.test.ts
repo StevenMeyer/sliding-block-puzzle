@@ -252,4 +252,37 @@ describe('Board', function (): void {
             expect(board.toJSON()).toEqual(expectedBoardResult);
         });
     });
+
+    it('wins when the board is cleared', function (): void {
+        const board1 = new Board([
+            [undefined],
+        ]);
+        expect(board1.isWon).toBe(true);
+
+        const board2 = new Board([
+            [Direction.right],
+        ]);
+        expect(board2.isWon).toBe(false);
+
+        board2.slide([0, 0]);
+        expect(board2.isWon).toBe(true);
+
+        const board3 = new Board([
+            [],
+            [undefined, Direction.right, Direction.down, undefined],
+            [undefined, undefined, Direction.right],
+            [undefined, Direction.up, Direction.left],
+            [],
+        ]);
+        expect(board3.isWon).toBe(false);
+        expect(board3.slide([2, 2])).toBe(true);
+        expect(board3.isWon).toBe(false);
+        expect(board3.slide([2, 1])).toBe(true);
+        expect(board3.slide([1, 1])).toBe(true);
+        expect(board3.slide([1, 3])).toBe(true);
+        expect(board3.slide([2, 3])).toBe(true);
+        expect(board3.isWon).toBe(false);
+        expect(board3.slide([2, 2])).toBe(true);
+        expect(board3.isWon).toBe(true);
+    })
 });

@@ -8,6 +8,11 @@ export class Board {
     readonly height: number;
     readonly width: number;
 
+    /** Is the board empty (there are no Blocks)? */
+    get isWon(): boolean {
+        return this.map.every((row) => row.every((cell) => !cell.block));
+    }
+
     /** An internal map of the game board. An array of rows where `map[0][0]` is the top left cell. */
     private readonly map: Cell[][];
 
