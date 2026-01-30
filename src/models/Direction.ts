@@ -4,3 +4,4 @@ export const enum Direction {
     right,
     up,
 }
+export type MaybeDirection = Direction | undefined;

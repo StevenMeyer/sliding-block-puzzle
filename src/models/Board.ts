@@ -1,8 +1,6 @@
 import { BoardError } from "./BoardError";
 import { Cell } from "./Cell";
-import { Direction } from "./Direction";
-
-type MaybeDirection = Direction | undefined;
+import { Direction, MaybeDirection } from "./Direction";
 
 export class Board {
     readonly height: number;
@@ -36,7 +34,12 @@ export class Board {
             const row = new Array<Cell>(this.width);
             this.map[rowIndex] = row;
             for (let colIndex = 0; colIndex < this.width; colIndex += 1) {
-                row[colIndex] = new Cell([colIndex, rowIndex], seedRow[colIndex]);
+                row[colIndex] = new Cell([colIndex, rowIndex], {
+                    direction: seedRow[colIndex],
+                    options: {
+                        id: `block-${colIndex.toFixed(0)}-${rowIndex.toFixed(0)}`,
+                    },
+                });
             }
         }
     }
@@ -73,6 +76,10 @@ export class Board {
             column[i] = this.map[i][x];
         }
         return column;
+    }
+
+    getMap(): Cell[][] {
+        return structuredClone(this.map);
     }
 
     /**
